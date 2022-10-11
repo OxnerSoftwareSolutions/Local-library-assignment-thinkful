@@ -1,3 +1,5 @@
+const accounts = require("../data/accounts");
+const books = require("../data/books");
 
 /* ### getTotalBooksCount()
 
@@ -49,17 +51,11 @@ getBooksBorrowedCount(accounts); // 65
 ```
  */
 function getBooksBorrowedCount(books) {//Create a function named getBooksBorrowedCount that takes in a books array
-
-  let booksCheckedOut = books.filter(//Declare a variable named booksCheckedOut that filters through the books array
-
-   (book) =>//Create an anonymous function within the books.filter method that filters through the borrows array
-
-    book.borrows.filter((record) => record.returned === false).length > 0//Check for record.returned === false
-//If the conditional statement is true and the length of the resulting array from the filter method is greater than zero
-
-  );
-  return booksCheckedOut.length;
- }/* ### getMostCommonGenres()
+  return books.reduce( ( total, book ) =>{
+    return book.borrows[0].returned ? total += 0 : total += 1;
+  }, 0 );
+ }
+ /* ### getMostCommonGenres()
 
 The `getMostCommonGenres()` function in `public/src/home.js` has a single parameter:
 
@@ -90,26 +86,28 @@ getMostCommonGenres(books);
 
 The order of the array returned by Object.entries() is the same as that provided by a for...in loop. If there is a need for different ordering, then the array should be sorted first, like Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));. */
   function getMostCommonGenres(books) {
-    let map = {};// declaring a variable that represents map as an empty array that we will push to later 
-    books.forEach((num) => {//Loop through the books array using the forEach method 
-     if (map[num.genre]) {//count the number of times each genre shows up storing these results in an array
+    let result = {};// declaring a variable that represents map as an empty array that we will push to later 
+    books.forEach((bookObj) => {//Loop through the books array using the forEach method 
+     if (result[bookObj.genre]) {//count the number of times each genre shows up storing these results in an array
       //If there is a genre in the map then add 1
       //If there isn't a genre in the map then set the key and value to one
-      map[num.genre]++;
+      result[bookObj.genre]++;
      } else {
-      map[num.genre] = 1;
+      result[bookObj.genre] = 1;
      }
     });
-    return Object.entries(map)////Map the Object entries and return them with name and count
+    return Object.entries(result)////return the object entries result the Object entries and return them with name and count
      .map(([name, count]) => {
       return {
        name,
        count
       };
      })
-     .sort((a, b) => b.count - a.count)//Sort the array so the most common comes first
+     .sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count)//Sort the array so the most common comes first
      .slice(0, 5);
    }
+  
+
 
 /* ### getMostPopularBooks()
 
@@ -141,9 +139,13 @@ getMostPopularBooks(books);
 function getMostPopularBooks(books) {
   return books.map((book) => {return { name: book.title, count: book.borrows.length };
    })
-   .sort((a, b) => (a.count < b.count ? 1 : -1))//sort the books by their borrows count so that they can be returned in the most popular order
+   .sort((crrtObj, nxtObj) => (crrtObj.count < nxtObj.count ? 1 : -1))//sort the books by their borrows count so that they can be returned in the most popular order
    .slice(0, 5);
  }
+
+
+
+
 /* ### getMostPopularAuthors()
 
 The `getMostPopularAuthors()` function in `public/src/home.js` has two parameters, in the following order:
@@ -186,8 +188,11 @@ getMostPopularAuthors(books, authors);
      });
      result.push(theAuthor);// push the results to the theAuthor object
     });
-    return result.sort((a, b) => b.count - a.count).slice(0, 5);//return the result and sort the information relayed back; stop at index 5 
+    return result.sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count).slice(0, 5);//return the result and sort the information relayed back; stop at index 5 
    }
+
+
+
 module.exports = {
   getTotalBooksCount,
   getTotalAccountsCount,
