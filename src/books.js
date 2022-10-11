@@ -161,14 +161,27 @@ A negative index can be used, indicating an offset from the end of the sequence.
 
 If end is omitted, slice extracts through the end of the sequence (arr.length).
 
-If end is greater than the length of the sequence, slice extracts through to the end of the sequence (arr.length). */
-function getBorrowersForBook(book, accounts) {
-  return book.borrows
-   .map((borrow) => {//Use the map() method to loop through the borrows array of the book object.
-    let account = accounts.find((account) => account.id === borrow.id);//Use the find() method within the map method to loop through the accounts array make a callback function that takes in each account and finds the account where account.id === borrow.id
-    return { ...borrow, ...account };//Return the spread operator that contains the output values of the map method as borrow and the account variable.
+If end is greater than the length of the sequence, slice extracts through to the end of the sequence (arr.length).
+The Map object holds key-value pairs and remembers the original insertion order of the keys. Any value (both objects and primitive values) may be used as either a key or a value.
+Map objects are collections of key-value pairs. A key in the Map may only occur once; it is unique in the Map's collection. A Map object is iterated by key-value pairs — a for...of loop returns a 2-member array of [key, value] for each iteration. Iteration happens in insertion order, which corresponds to the order in which each key-value pair was first inserted into the map by the set() method (that is, there wasn't a key with the same value already in the map when set() was called).
+
+The specification requires maps to be implemented "that, on average, provide access times that are sublinear on the number of elements in the collection". Therefore, it could be represented internally as a hash table (with O(1) lookup), a search tree (with O(log(N)) lookup), or any other data structure, as long as the complexity is better than O(N).
+*/
+// function getBorrowersForBook(book, accounts) {
+//   return book.borrows
+//    .map((borrow) => {//Use the map() method to loop through the borrows array of the book object.
+//     let account = accounts.find((account) => account.id === borrow.id);//Use the find() method within the map method to loop through the accounts array make a callback function that takes in each account and finds the account where account.id === borrow.id
+//     return { ...borrow, ...account };//Return the spread operator that contains the output values of the map method as borrow and the account variable.
+//    })
+//    .slice(0, 10);//Use the slice method on the output array to return only the portion of the array up to index value 10 of the returned array.
+//  }
+
+ function getBorrowersForBook(book, accounts) {
+  return book.borrows.map((borrow) => {
+    let account = accounts.find((account) => account.id === borrow.id);
+    return { ...borrow, ...account };
    })
-   .slice(0, 10);//Use the slice method on the output array to return only the portion of the array up to index value 10 of the returned array.
+   .slice(0, 10);
  }
  
  module.exports = {

@@ -28,7 +28,6 @@ function findAccountById(accounts, id) {
   return accounts.find((accountsObj, idx)=> accountsObj.id === id) 
 }
 
-
 /* 
 #### sortAccountsByLastName()
 

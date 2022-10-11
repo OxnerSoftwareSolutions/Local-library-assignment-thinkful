@@ -1,3 +1,6 @@
+const accounts = require("../public/data/accounts");
+const books = require("../public/data/books");
+
 /* ### getTotalBooksCount()
 
 The `getTotalBooksCount()` function in `public/src/home.js` has a single parameter:
@@ -90,13 +93,13 @@ getMostCommonGenres(books);
 The order of the array returned by Object.entries() is the same as that provided by a for...in loop. If there is a need for different ordering, then the array should be sorted first, like Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));. */
   function getMostCommonGenres(books) {
     let result = {};// declaring a variable that represents map as an empty array that we will push to later 
-    books.forEach((book) => {//Loop through the books array using the forEach method 
-     if (result[book.genre]) {//count the number of times each genre shows up storing these results in an array
+    books.forEach((bookObj) => {//Loop through the books array using the forEach method 
+     if (result[bookObj.genre]) {//count the number of times each genre shows up storing these results in an array
       //If there is a genre in the map then add 1
       //If there isn't a genre in the map then set the key and value to one
-      result[book.genre]++;
+      result[bookObj.genre]++;
      } else {
-      result[book.genre] = 1;
+      result[bookObj.genre] = 1;
      }
     });
     return Object.entries(result)////return the object entries result the Object entries and return them with name and count
@@ -109,6 +112,7 @@ The order of the array returned by Object.entries() is the same as that provided
      .sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count)//Sort the array so the most common comes first
      .slice(0, 5);
    }
+
 
 /* ### getMostPopularBooks()
 
@@ -143,6 +147,10 @@ function getMostPopularBooks(books) {
    .sort((crrtObj, nxtObj) => (crrtObj.count < nxtObj.count ? 1 : -1))//sort the books by their borrows count so that they can be returned in the most popular order
    .slice(0, 5);
  }
+
+
+
+
 /* ### getMostPopularAuthors()
 
 The `getMostPopularAuthors()` function in `public/src/home.js` has two parameters, in the following order:
@@ -187,6 +195,9 @@ getMostPopularAuthors(books, authors);
     });
     return result.sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count).slice(0, 5);//return the result and sort the information relayed back; stop at index 5 
    }
+
+
+
 module.exports = {
   getTotalBooksCount,
   getTotalAccountsCount,
