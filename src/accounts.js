@@ -27,9 +27,7 @@ findAccountById(accounts, "5f446f2ecfaf0310387c9603");
 function findAccountById(accounts, id) {
   return accounts.find((accountsObj, idx)=> accountsObj.id === id) 
 }
-console.log('********************************************************')
-console.log(findAccountById(accounts, "5f446f2e2a4fcd687493a775"));
-console.log('********************************************************')
+
 
 /* 
 #### sortAccountsByLastName()
