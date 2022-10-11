@@ -89,17 +89,17 @@ getMostCommonGenres(books);
 
 The order of the array returned by Object.entries() is the same as that provided by a for...in loop. If there is a need for different ordering, then the array should be sorted first, like Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));. */
   function getMostCommonGenres(books) {
-    let map = {};// declaring a variable that represents map as an empty array that we will push to later 
-    books.forEach((num) => {//Loop through the books array using the forEach method 
-     if (map[num.genre]) {//count the number of times each genre shows up storing these results in an array
+    let result = {};// declaring a variable that represents map as an empty array that we will push to later 
+    books.forEach((book) => {//Loop through the books array using the forEach method 
+     if (result[book.genre]) {//count the number of times each genre shows up storing these results in an array
       //If there is a genre in the map then add 1
       //If there isn't a genre in the map then set the key and value to one
-      map[num.genre]++;
+      result[book.genre]++;
      } else {
-      map[num.genre] = 1;
+      result[book.genre] = 1;
      }
     });
-    return Object.entries(map)////Map the Object entries and return them with name and count
+    return Object.entries(result)////return the object entries result the Object entries and return them with name and count
      .map(([name, count]) => {
       return {
        name,

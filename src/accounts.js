@@ -1,3 +1,5 @@
+const accounts = require("../public/data/accounts");
+const books = require("../public/data/books");
 /* #### findAccountById()
 
 The `findAccountById()` function in `public/src/accounts.js` has two parameters, in the following order:
@@ -23,8 +25,12 @@ findAccountById(accounts, "5f446f2ecfaf0310387c9603");
 */ 
 
 function findAccountById(accounts, id) {
-  return accounts.find((accountsObj, idx)=> accountsObj.id === id 
+  return accounts.find((accountsObj, idx)=> accountsObj.id === id) 
 }
+console.log('********************************************************')
+console.log(findAccountById(accounts, "5f446f2e2a4fcd687493a775"));
+console.log('********************************************************')
+
 /* 
 #### sortAccountsByLastName()
 
@@ -57,7 +63,7 @@ sortAccountsByLastName(accounts);
   ]  
 */
 function sortAccountsByLastName(accounts) {
-  return accounts.sort((acctA, acctB) {
+  return accounts.sort((acctA, acctB)=> {
     if (acctA.name.last < acctB.name.last) {
       return -1;
     }
@@ -84,7 +90,7 @@ getTotalNumberOfBorrows(account, books); // 22
 
 function getTotalNumberOfBorrows(account, books) {
   let total = 0;
-  books.forEach(book => book.borrows.forEach(borrow => account.id === borrow.id && total++));
+  books.reduce(book => book.borrows.forEach(borrow => account.id === borrow.id && total++));
   return total;
 }
 /*
@@ -129,18 +135,18 @@ getBooksPossessedByAccount(account, books, authors);
   // function getBooksPossessedByAccount(account, books, authors) {
   //   let result = [];//Declare a variable that will store the value of the final result in an empty array.
   //   let borrowMatch = [];//Declare a variable that will store the value of the matching borrow object.
-  //   books.forEach((item) => {//Loop through the books array using the forEach method 
+  //   books.forEach((book) => {//Loop through the books array using the forEach method 
   //    const book = {//Destructure the book object.
-  //     id: item.id,
-  //     title: item.title,
-  //     genre: item.genre,
-  //     authorId: item.authorId,
+  //     id: book.id,
+  //     title: book.title,
+  //     genre: book.genre,
+  //     authorId: book.authorId,
   //     author: {},
   //     borrows: {}
   //    };
   //    const { id, title, genre, authorId, author, borrows } = book;
    
-  //    item.borrows.forEach((borrow) => {
+  //    book.borrows.forEach((borrow) => {
   //     // loop through the borrowed array check if borrow.id is equal to accountId and borrow.returned == false
   //     if (borrow.id === account.id && borrow.returned === false) {//If conditional is true push the book object into the result array and the borrows object to borrowsMatch array.
   //      result.push(book);
@@ -153,18 +159,39 @@ getBooksPossessedByAccount(account, books, authors);
   //   return result;
   //  }
 
-   
+  /* #### getBooksPossessedByAccount()
+
+The `getBooksPossessedByAccount` function in `public/src/accounts.js` has three parameters, in the following order:
+
+- An account object.
+- An array of all book objects.
+- An array of all author objects.
+
+It returns an array of book objects, including author information, that represents all books _currently checked out_ by the given account. _Look carefully at the object below,_ as it's not just the book object; the author object is nested inside of it. */ 
+function filterBooks(books){
+  return books.filter((bookObj) => {
+    let recent = bookObj.borrows[0];
+    return !recent.returned && recent.id === account.id;
+  })
+}
+
   function getBooksPossessedByAccount(account, books, authors) {
-    return books
-      .filter((book) => {
-        let recent = book.borrows[0];
-        return !recent.returned && recent.id === account.id;
-      })
-      .map((book) => {
-        let author = authors.find(author => author.id === book.authorId);
-        return { ...book, author };
+    let filtered = filterBooks(books);
+    // return books.filter((bookObj) => {
+    //     let recent = bookObj.borrows[0];
+    //     return !recent.returned && recent.id === account.id;
+    //   })
+      filtered.map((bookObj) => {
+        let author = authors.find(author => author.id === bookObj.authorId);
+        return { ...bookObj, author };
       });
   }
+
+
+
+
+
+
 module.exports = {
   findAccountById,
   sortAccountsByLastName,
