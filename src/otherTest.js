@@ -7406,6 +7406,14 @@ const books = [
    return result.sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count).slice(0, 5);//return the result and sort the information relayed back; stop at index 5 
 }
    
+function getTotalNumberOfBorrows(account, books) {
+  let total = 0;
+  books.reduce(book => book.borrows.forEach(borrow => account.id === borrow.id && total++));
+  return total;
+}
+
+console.log(getTotalNumberOfBorrows("5f446f2eae901a82e0259947", books));
+
 console.log(getMostPopularAuthors(books, authors))  
 
 

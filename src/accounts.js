@@ -87,9 +87,12 @@ getTotalNumberOfBorrows(account, books); // 22
 
 function getTotalNumberOfBorrows(account, books) {
   let total = 0;
-  books.reduce(book => book.borrows.forEach(borrow => account.id === borrow.id && total++));
+  books.forEach(book => book.borrows.forEach(borrow => account.id === borrow.id && total++));
   return total;
 }
+
+
+
 /*
 #### getBooksPossessedByAccount()
 

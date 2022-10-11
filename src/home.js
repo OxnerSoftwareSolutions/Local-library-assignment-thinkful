@@ -51,16 +51,9 @@ getBooksBorrowedCount(accounts); // 65
 ```
  */
 function getBooksBorrowedCount(books) {//Create a function named getBooksBorrowedCount that takes in a books array
-
-  let booksCheckedOut = books.filter(//Declare a variable named booksCheckedOut that filters through the books array
-
-   (book) =>//Create an anonymous function within the books.filter method that filters through the borrows array
-
-    book.borrows.filter((record) => record.returned === false).length > 0//Check for record.returned === false
-//If the conditional statement is true and the length of the resulting array from the filter method is greater than zero
-
-  );
-  return booksCheckedOut.length;
+  return books.reduce( ( total, book ) =>{
+    return book.borrows[0].returned ? total += 0 : total += 1;
+  }, 0 );
  }/* ### getMostCommonGenres()
 
 The `getMostCommonGenres()` function in `public/src/home.js` has a single parameter:
