@@ -22,7 +22,7 @@ findAuthorById(authors, 11);
  */
 
 function findAuthorById(authors, id) {
-  return authors.find((authorsObj, idx)=> authorsObj.id === id 
+  return authors.find((authorsObj, idx)=> authorsObj.id === id)
 }
 /* #### findBookById()
 
@@ -45,7 +45,7 @@ findBookById(books, "5f447132320b4bc16f950076");
   }
  */
 function findBookById(books, id) {
-  return books.find((bookObj, idx)=> bookObj.id === id 
+  return books.find((bookObj, idx)=> bookObj.id === id)
 }
 /* #### partitionBooksByBorrowedStatus()
 

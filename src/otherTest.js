@@ -7417,7 +7417,33 @@ function getBooksBorrowedCount(books) {//Create a function named getBooksBorrowe
   }, 0 );
  }
 
- console.log(getBooksBorrowedCount(books));
+ function getMostCommonGenres(books) {
+  let result = {};// declaring a variable that represents map as an empty array that we will push to later 
+  books.forEach((bookObj) => {//Loop through the books array using the forEach method 
+   if (result[bookObj.genre]) {//count the number of times each genre shows up storing these results in an array
+    //If there is a genre in the map then add 1
+    //If there isn't a genre in the map then set the key and value to one
+    result[bookObj.genre]++;
+   } else {
+    result[bookObj.genre] = 1;
+   }
+  });
+  return Object.entries(result)////return the object entries result the Object entries and return them with name and count
+   .map(([name, count]) => {
+    return {
+     name,
+     count
+    };
+   })
+   .sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count)//Sort the array so the most common comes first
+   .slice(0, 5);
+ }
+
+ console.log(getMostCommonGenres(books));
+ console.log("I finally figured this out lol");
+ 
+ 
+//  console.log(getBooksBorrowedCount(books));
  
 
 // console.log(getTotalNumberOfBorrows("5f446f2eae901a82e0259947", books));

@@ -106,6 +106,7 @@ The order of the array returned by Object.entries() is the same as that provided
      .sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count)//Sort the array so the most common comes first
      .slice(0, 5);
    }
+  
 
 
 /* ### getMostPopularBooks()
