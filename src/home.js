@@ -54,7 +54,8 @@ function getBooksBorrowedCount(books) {//Create a function named getBooksBorrowe
   return books.reduce( ( total, book ) =>{
     return book.borrows[0].returned ? total += 0 : total += 1;
   }, 0 );
- }/* ### getMostCommonGenres()
+ }
+ /* ### getMostCommonGenres()
 
 The `getMostCommonGenres()` function in `public/src/home.js` has a single parameter:
 

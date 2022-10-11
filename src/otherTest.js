@@ -7408,13 +7408,21 @@ const books = [
    
 function getTotalNumberOfBorrows(account, books) {
   let total = 0;
-  books.reduce(book => book.borrows.forEach(borrow => account.id === borrow.id && total++));
+  books.forEach(book => book.borrows.forEach(borrow => account.id === borrow.id && total++));
   return total;
 }
+function getBooksBorrowedCount(books) {//Create a function named getBooksBorrowedCount that takes in a books array
+  return books.reduce( ( total, book ) =>{
+    return book.borrows[0].returned ? total += 0 : total += 1;
+  }, 0 );
+ }
 
-console.log(getTotalNumberOfBorrows("5f446f2eae901a82e0259947", books));
+ console.log(getBooksBorrowedCount(books));
+ 
 
-console.log(getMostPopularAuthors(books, authors))  
+// console.log(getTotalNumberOfBorrows("5f446f2eae901a82e0259947", books));
+
+// console.log(getMostPopularAuthors(books, authors))  
 
 
 
