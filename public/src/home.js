@@ -1,6 +1,6 @@
 const accounts = require("../data/accounts");
 const books = require("../data/books");
-
+const authors = require("../data/authors");
 /* ### getTotalBooksCount()
 
 The `getTotalBooksCount()` function in `public/src/home.js` has a single parameter:
@@ -17,7 +17,7 @@ getTotalBooksCount(books); // 100
  */
 
 function getTotalBooksCount(books) {
-  return books.length;
+	return books.length;
 }
 /* ### getTotalAccountsCount()
 
@@ -34,8 +34,9 @@ getTotalAccountsCount(accounts); // 75
 ```
  */
 function getTotalAccountsCount(accounts) {
-  return accounts.length;
+	return accounts.length;
 }
+
 /* ### getBooksBorrowedCount()
 
 The `getBooksBorrowedCount()` function in `public/src/home.js` has a single parameter:
@@ -50,12 +51,14 @@ It returns a _number_ that represents the number of books _that are currently ch
 getBooksBorrowedCount(accounts); // 65
 ```
  */
-function getBooksBorrowedCount(books) {//Create a function named getBooksBorrowedCount that takes in a books array
-  return books.reduce( ( total, book ) =>{
-    return book.borrows[0].returned ? total += 0 : total += 1;
-  }, 0 );
- }
- /* ### getMostCommonGenres()
+function getBooksBorrowedCount(books) {
+	//Create a function named getBooksBorrowedCount that takes in a books array
+	return books.reduce((total, book) => {
+		return book.borrows[0].returned ? (total += 0) : (total += 1);
+	}, 0);
+}
+
+/* ### getMostCommonGenres()
 
 The `getMostCommonGenres()` function in `public/src/home.js` has a single parameter:
 
@@ -82,32 +85,32 @@ getMostCommonGenres(books);
     ...
   ] */
 
-  /* The Object.entries() method returns an array of a given object's own enumerable string-keyed property [key, value] pairs. This is the same as iterating with a for...in loop, except that a for...in loop enumerates properties in the prototype chain as well.
+/* The Object.entries() method returns an array of a given object's own enumerable string-keyed property [key, value] pairs. This is the same as iterating with a for...in loop, except that a for...in loop enumerates properties in the prototype chain as well.
 
 The order of the array returned by Object.entries() is the same as that provided by a for...in loop. If there is a need for different ordering, then the array should be sorted first, like Object.entries(obj).sort((a, b) => a[0].localeCompare(b[0]));. */
-  function getMostCommonGenres(books) {
-    let result = {};// declaring a variable that represents map as an empty array that we will push to later 
-    books.forEach((bookObj) => {//Loop through the books array using the forEach method 
-     if (result[bookObj.genre]) {//count the number of times each genre shows up storing these results in an array
-      //If there is a genre in the map then add 1
-      //If there isn't a genre in the map then set the key and value to one
-      result[bookObj.genre]++;
-     } else {
-      result[bookObj.genre] = 1;
-     }
-    });
-    return Object.entries(result)////return the object entries result the Object entries and return them with name and count
-     .map(([name, count]) => {
-      return {
-       name,
-       count
-      };
-     })
-     .sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count)//Sort the array so the most common comes first
-     .slice(0, 5);
-   }
-  
-
+function getMostCommonGenres(books) {
+	let result = {}; // declaring a variable that represents map as an empty array that we will push to later
+	books.forEach((bookObj) => {
+		//Loop through the books array using the forEach method
+		if (result[bookObj.genre]) {
+			//count the number of times each genre shows up storing these results in an array
+			//If there is a genre in the map then add 1
+			//If there isn't a genre in the map then set the key and value to one
+			result[bookObj.genre]++;
+		} else {
+			result[bookObj.genre] = 1;
+		}
+	});
+	return Object.entries(result) ////return the object entries result the Object entries and return them with name and count
+		.map(([name, count]) => {
+			return {
+				name,
+				count,
+			};
+		})
+		.sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count) //Sort the array so the most common comes first
+		.slice(0, 5);
+}
 
 /* ### getMostPopularBooks()
 
@@ -137,14 +140,13 @@ getMostPopularBooks(books);
   ]
 */
 function getMostPopularBooks(books) {
-  return books.map((book) => {return { name: book.title, count: book.borrows.length };
-   })
-   .sort((crrtObj, nxtObj) => (crrtObj.count < nxtObj.count ? 1 : -1))//sort the books by their borrows count so that they can be returned in the most popular order
-   .slice(0, 5);
- }
-
-
-
+	return books
+		.map((book) => {
+			return { name: book.title, count: book.borrows.length };
+		})
+		.sort((crrtObj, nxtObj) => (crrtObj.count < nxtObj.count ? 1 : -1)) //sort the books by their borrows count so that they can be returned in the most popular order
+		.slice(0, 5);
+}
 
 /* ### getMostPopularAuthors()
 
@@ -174,30 +176,33 @@ getMostPopularAuthors(books, authors);
     ...
   ]
  */
-  function getMostPopularAuthors(books, authors) {
-    let result = [];//Declare a variable that will store the value of the most popular authors array
-    authors.forEach((author) => {//Loop through the authors array using the forEach method 
-     let theAuthor = {
-      name: `${author.name.first} ${author.name.last}`,
-      count: 0
-     };// declarin theAuthor variable representing an object with a name: key and a count key
-     books.forEach((book) => {// Loop through the books array using the forEach method
-      if (book.authorId === author.id) {// check to see if book.authorId matches the author.id 
-       theAuthor.count += book.borrows.length;// if it does add theAuthor.count to the books.borrows.length
-      }
-     });
-     result.push(theAuthor);// push the results to the theAuthor object
-    });
-    return result.sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count).slice(0, 5);//return the result and sort the information relayed back; stop at index 5 
-   }
-
-
+function getMostPopularAuthors(books, authors) {
+	let result = []; //Declare a variable that will store the value of the most popular authors array
+	authors.forEach((author) => {
+		//Loop through the authors array using the forEach method
+		let theAuthor = {
+			name: `${author.name.first} ${author.name.last}`,
+			count: 0,
+		}; // declarin theAuthor variable representing an object with a name: key and a count key
+		books.forEach((book) => {
+			// Loop through the books array using the forEach method
+			if (book.authorId === author.id) {
+				// check to see if book.authorId matches the author.id
+				theAuthor.count += book.borrows.length; // if it does add theAuthor.count to the books.borrows.length
+			}
+		});
+		result.push(theAuthor); // push the results to the theAuthor object
+	});
+	return result
+		.sort((crrtObj, nxtObj) => nxtObj.count - crrtObj.count)
+		.slice(0, 5); //return the result and sort the information relayed back; stop at index 5
+}
 
 module.exports = {
-  getTotalBooksCount,
-  getTotalAccountsCount,
-  getBooksBorrowedCount,
-  getMostCommonGenres,
-  getMostPopularBooks,
-  getMostPopularAuthors,
+	getTotalBooksCount,
+	getTotalAccountsCount,
+	getBooksBorrowedCount,
+	getMostCommonGenres,
+	getMostPopularBooks,
+	getMostPopularAuthors,
 };
